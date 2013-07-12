@@ -33,12 +33,9 @@ import com.cloudera.science.ml.core.vectors.Vectors;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
-/**
- *
- */
 public class FormulaTest {
 
-  private Spec abSpec = RecordSpec.builder()
+  private final Spec abSpec = RecordSpec.builder()
       .add("a", DataType.DOUBLE)
       .add("b", DataType.STRING)
       .build();

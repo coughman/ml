@@ -81,23 +81,27 @@ public class RecordInputParameters {
   private String format;
   
   @Parameter(names = "--delim",
-      description = "For text files, the delimiter to use for separate fields")
+      description = "For text files, the character delimiter to use for separate fields")
   private String delim = ",";
   
-  @Parameter(names = "--ignore-lines",
-      description = "Any lines that match this regular expression in a text file will be ignored by the parser")
-  private String ignoreLines;
+  @Parameter(names = "--quote-char",
+      description = "For text files, the character that indicates quoted text (usually ''' or '\"')")
+  private String quote;
+  
+  @Parameter(names = "--comment-char",
+      description = "For text files, the character that indicates that a line should be ignored")
+  private String comment;
   
   public String getDelimiter() {
     return delim;
   }
   
-  public SummarizedRecords getSummarizedRecords(final Pipeline pipeline, Summary summary) {
+  public SummarizedRecords getSummarizedRecords(Pipeline pipeline, Summary summary) {
     Records records = getRecords(pipeline, summary.getSpec());
     return new SummarizedRecords(records.get(), summary);
   }
   
-  public Records getRecords(final Pipeline pipeline, Header header) {
+  public Records getRecords(Pipeline pipeline, Header header) {
     Spec spec = header == null ? null : header.toSpec();
     return getRecords(pipeline, spec);
   }
@@ -112,8 +116,8 @@ public class RecordInputParameters {
           return pipeline.readTextFile(input);
         }
       });
-      Pattern pattern = ignoreLines == null ? null : Pattern.compile(ignoreLines);
-      ret = StringSplitFn.apply(text, delim, pattern);
+      ret = StringSplitFn.apply(text, delim.charAt(0), quote == null ? null : quote.charAt(0),
+          comment == null ? null : comment.charAt(0));
       if (spec == null) {
         throw new CommandException("Text input records must have a --header-file provided");
       }

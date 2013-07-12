@@ -110,7 +110,7 @@ public class HCatalogSource implements Source<Record> {
   
   @Override
   public boolean equals(Object other) {
-    if (other == null || !(other instanceof HCatalogSource)) {
+    if (!(other instanceof HCatalogSource)) {
       return false;
     }
     HCatalogSource hs = (HCatalogSource) other;
@@ -124,6 +124,6 @@ public class HCatalogSource implements Source<Record> {
   
   @Override
   public String toString() {
-    return "Hive(" + info.getTableName() + ")";
+    return "Hive(" + info.getTableName() + ')';
   }
 }

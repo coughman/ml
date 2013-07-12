@@ -191,7 +191,7 @@ public final class HCatalog {
   private static class HCatOutFn extends MapFn<Record, HCatRecord> {
     private final HCatSchema dataSchema;
     
-    public HCatOutFn(HCatSchema dataSchema) {
+    HCatOutFn(HCatSchema dataSchema) {
       this.dataSchema = dataSchema;
     }
     

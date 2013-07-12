@@ -22,7 +22,7 @@ import org.apache.mahout.math.Vector;
  * {@code MapFn}s for extracting the key type from a {@code Vector} instance
  * that has an identifier associated with it, like the name of a {@code NamedVector}.
  */
-public class VectorKeyFns {
+public final class VectorKeyFns {
 
   public static <V extends Vector> MapFn<V, Long> longKeyFn() {
     return new MapFn<V, Long>() {

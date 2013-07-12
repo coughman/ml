@@ -167,9 +167,9 @@ public class KMeansEvaluation {
             Files.write("ClusteringId,CenterId,NumPoints,PredictionStrength\n", detailsFile,
                 Charsets.UTF_8);
           }
-          Files.append(NEWLINE_JOINER.join(details) + "\n", detailsFile, Charsets.UTF_8);
+          Files.append(NEWLINE_JOINER.join(details) + '\n', detailsFile, Charsets.UTF_8);
         } catch (IOException e) {
-          LOG.warn("Exception writing evaluation details file: " + detailsFile, e);
+          LOG.warn("Exception writing evaluation details file: {}", detailsFile, e);
         }
       }
     }

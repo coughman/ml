@@ -92,7 +92,7 @@ public class PivotCommand implements Command {
   @Override
   public int execute(Configuration conf) throws IOException {
     Pipeline p = pipelineParams.create(PivotCommand.class, conf);
-    SummarizedRecords records = null;
+    SummarizedRecords records;
     if (summaryFile != null) {
       Summary summary = summaryParams.get(summaryFile);
       records = inputParams.getSummarizedRecords(p, summary);

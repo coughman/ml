@@ -102,10 +102,7 @@ public class Summary implements Serializable {
   }
   
   public boolean hasStats(int field) {
-    if (field >= stats.size()) {
-      return false;
-    }
-    return stats.get(field) != null;
+    return field < stats.size() && stats.get(field) != null;
   }
   
   public SummaryStats getStats(int field) {

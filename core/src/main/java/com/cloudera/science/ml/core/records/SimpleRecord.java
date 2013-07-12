@@ -150,7 +150,7 @@ public class SimpleRecord implements Record {
   
   @Override
   public boolean equals(Object other) {
-    if (other == null || !(other instanceof SimpleRecord)) {
+    if (!(other instanceof SimpleRecord)) {
       return false;
     }
     SimpleRecord r = (SimpleRecord) other;

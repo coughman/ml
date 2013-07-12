@@ -29,7 +29,7 @@ class InternalStats {
 
   public static final class Aggregator extends SimpleAggregator<InternalStats> {
     private InternalStats agg;
-    private int maxLevels;
+    private final int maxLevels;
     
     public Aggregator(int maxLevels) {
       this.maxLevels = maxLevels;

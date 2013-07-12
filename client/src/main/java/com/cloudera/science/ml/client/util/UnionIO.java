@@ -21,10 +21,11 @@ import org.apache.crunch.PCollection;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-/**
- *
- */
-public class UnionIO {
+public final class UnionIO {
+
+  private UnionIO() {
+  }
+
   public static <T> PCollection<T> from(List<String> paths, Function<String, PCollection<T>> f) {
     PCollection<T> ret = null;
     for (PCollection<T> p : Lists.transform(paths, f)) {

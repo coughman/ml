@@ -25,12 +25,9 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-/**
- *
- */
 public class WeightedTest {
 
-  private Random rand = new Random(1729L);
+  private final Random rand = new Random(1729L);
   
   private static class ThingFn<T> implements Function<Weighted<T>, T> {
     @Override

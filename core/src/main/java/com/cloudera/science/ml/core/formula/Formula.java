@@ -91,12 +91,12 @@ public class Formula implements Function<Record, Vector>, Serializable {
   }
 
   private static class CompiledTerm implements Serializable {
-    private List<Integer> numericTerms;
-    private List<Integer> categoricalTerms;
-    private List<List<String>> histograms;
-    private int baseOffset;
+    private final List<Integer> numericTerms;
+    private final List<Integer> categoricalTerms;
+    private final List<List<String>> histograms;
+    private final int baseOffset;
     
-    public CompiledTerm(List<Integer> numericTerms, List<Integer> categoricalTerms,
+    CompiledTerm(List<Integer> numericTerms, List<Integer> categoricalTerms,
         List<List<String>> histograms, int baseOffset) {
       this.numericTerms = numericTerms;
       this.categoricalTerms = categoricalTerms;

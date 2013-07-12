@@ -66,7 +66,7 @@ public class HCatalogFieldSpec implements FieldSpec {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(schema.getName());
-    sb.append(" ").append(schema.getType());
+    sb.append(' ').append(schema.getType());
     return sb.toString();
   }
 }

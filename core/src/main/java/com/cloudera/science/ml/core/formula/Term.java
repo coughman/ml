@@ -24,9 +24,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-/**
- *
- */
 public class Term implements Iterable<String>, Comparable<Term> {
   
   public static final Term INTERCEPT = new Term();
@@ -60,6 +57,7 @@ public class Term implements Iterable<String>, Comparable<Term> {
     return names.iterator();
   }
 
+  @Override
   public String toString() {
     if (names.isEmpty()) {
       return "Intercept";
@@ -67,33 +65,36 @@ public class Term implements Iterable<String>, Comparable<Term> {
     return Joiner.on(':').join(names);
   }
   
+  @Override
   public boolean equals(Object other) {
-    if (other == null || !(other instanceof Term)) {
+    if (!(other instanceof Term)) {
       return false;
     }
     Term t = (Term) other;
     return names.equals(t.names);
   }
   
+  @Override
   public int hashCode() {
     return names.hashCode();
   }
 
   @Override
   public int compareTo(Term t) {
-    int diff = names.size() - t.names.size();
-    if (diff == 0) {
+    int thisSize = names.size();
+    int otherSize = t.names.size();
+    if (thisSize == otherSize) {
       // Compare elements
       Iterator<String> me = names.iterator();
       Iterator<String> them = t.names.iterator();
       while (me.hasNext() && them.hasNext()) {
-        diff = me.next().compareTo(them.next());
+        int diff = me.next().compareTo(them.next());
         if (diff != 0) {
           return diff;
         }
       }
       return 0;
     }
-    return diff;
+    return thisSize < otherSize ? -1 : 1;
   }
 }

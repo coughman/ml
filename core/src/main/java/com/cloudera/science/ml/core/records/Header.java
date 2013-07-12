@@ -76,7 +76,7 @@ public class Header {
           throw new IllegalArgumentException(String.format(
               "Did not recognize metadata %s for field %s", meta, name));
         }
-      } else {
+      } else if (!line.matches("\\s*")) {
         data.put(line, Type.NUMERIC);
       }
     }

@@ -207,8 +207,8 @@ class CentersIndex implements Serializable {
   }
   
   static class Idx implements Comparable<Idx> {
-    private int distance;
-    private int index;
+    private final int distance;
+    private final int index;
     
     Idx(int distance, int index) {
       this.distance = distance;

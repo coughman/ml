@@ -36,8 +36,9 @@
     <javassist.version>3.16.1-GA</javassist.version>
     <guava.version>11.0.2</guava.version>
     <jcommander.version>1.30</jcommander.version>
+    <solr.commons.csv.version>3.5.0</solr.commons.csv.version>
     <junit.version>4.8.2</junit.version>
-
+    
     <!-- Versions for plugins -->
     <compiler.plugin.version>2.3.2</compiler.plugin.version>
     <dependency.plugin.version>2.6</dependency.plugin.version>
@@ -112,6 +113,12 @@
             <artifactId>jackson-mapper-asl</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.solr</groupId>
+        <artifactId>solr-commons-csv</artifactId>
+        <version>${solr.commons.csv.version}</version>
       </dependency>
 
       <dependency>

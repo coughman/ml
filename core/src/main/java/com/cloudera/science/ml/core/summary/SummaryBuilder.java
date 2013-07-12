@@ -23,13 +23,10 @@ import com.cloudera.science.ml.core.records.Specs;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
-/**
- *
- */
 public class SummaryBuilder {
 
   private final Spec spec;
-  private List<SummaryStats> stats;
+  private final List<SummaryStats> stats;
   
   public SummaryBuilder(Spec spec) {
     this.spec = Preconditions.checkNotNull(spec);

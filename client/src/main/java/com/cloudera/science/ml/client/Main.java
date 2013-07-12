@@ -78,9 +78,9 @@ public class Main extends Configured implements Tool {
     try {
       jc.parse(args);
     } catch (ParameterException pe) {
-      boolean helped = false;
       String cmd = jc.getParsedCommand();
       if (COMMANDS.containsKey(cmd)) {
+        boolean helped = false;
         if (args.length == 1) { // i.e., just the command
           jc.usage(cmd);
           helped = true;

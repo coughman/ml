@@ -14,8 +14,12 @@
  */
 package com.cloudera.science.ml.parallel.normalize;
 
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.io.StringReader;
 
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVStrategy;
+import org.apache.crunch.CrunchRuntimeException;
 import org.apache.crunch.DoFn;
 import org.apache.crunch.Emitter;
 import org.apache.crunch.PCollection;
@@ -26,30 +30,52 @@ import com.cloudera.science.ml.parallel.types.MLRecords;
 
 public class StringSplitFn extends DoFn<String, Record> {
 
-  private final String delim;
-  private final Pattern ignoredLines;
+  private final char delim;
+  private final char quote;
+  private final char comment;
+  private transient CSVStrategy csvStrategy;
   
-  public static PCollection<Record> apply(PCollection<String> in, String delim) {
-    return apply(in, delim, null);
+  public static PCollection<Record> apply(PCollection<String> in, char delim) {
+    return apply(in, delim, null, null);
   }
   
-  public static PCollection<Record> apply(PCollection<String> in, String delim,
-      Pattern ignoredLines) {
+  public static PCollection<Record> apply(PCollection<String> in, char delim,
+      Character quote,
+      Character comment) {
+    if (quote == null) {
+      quote = '"';
+    }
+    if (comment == null) {
+      comment = CSVStrategy.COMMENTS_DISABLED;
+    }
     return in.parallelDo("string-split",
-        new StringSplitFn(delim, ignoredLines),
-        MLRecords.csvRecord(in.getTypeFamily(), delim));
+        new StringSplitFn(delim, quote, comment),
+        MLRecords.csvRecord(in.getTypeFamily(), String.valueOf(delim)));
   }
   
-  public StringSplitFn(String delim, Pattern ignoredLines) {
+  public StringSplitFn(char delim, char quote, char comment) {
     this.delim = delim;
-    this.ignoredLines = ignoredLines;
+    this.quote = quote;
+    this.comment = comment;
   }
 
   @Override
+  public void initialize() {
+    this.csvStrategy = new CSVStrategy(delim, quote, comment);
+  }
+  
+  @Override
   public void process(String line, Emitter<Record> emitter) {
-    if (line == null || line.isEmpty() || ignoredLines != null && ignoredLines.matcher(line).find()) {
+    if (line == null || line.isEmpty()) {
       return;
     }
-    emitter.emit(new CSVRecord(line.split(delim)));
+    try {
+      String[] pieces = new CSVParser(new StringReader(line), csvStrategy).getLine();
+      if (pieces != null) {
+        emitter.emit(new CSVRecord(pieces));
+      }
+    } catch (IOException e) {
+      throw new CrunchRuntimeException(e);
+    }
   }
 }

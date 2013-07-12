@@ -24,7 +24,7 @@ import com.cloudera.science.ml.core.vectors.Vectors;
 
 public class SvmLightFnTest {
 
-  private SvmLightFn<Vector> fn = new SvmLightFn<Vector>();
+  private final SvmLightFn<Vector> fn = new SvmLightFn<Vector>();
   
   @Test
   public void testVector() throws Exception {

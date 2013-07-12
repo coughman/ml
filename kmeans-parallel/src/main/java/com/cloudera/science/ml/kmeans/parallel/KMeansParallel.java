@@ -63,7 +63,7 @@ import com.google.common.collect.Lists;
  * <p>An implementation of the k-means|| algorithm, as described in
  * <a href="http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf">Bahmani et al. (2012)</a>
  * 
- * <p>The main algorithm is executed by the {@link #computeClusterAssignments(PCollection, List, PType)}
+ * <p>The main algorithm is executed by the {@link #computeClusterAssignments(PCollection, List)} 
  * method, which takes a number of
  * configured instances and runs over a given dataset of points for a fixed number
  * of iterations in order to find a candidate set of points to stream into the client and
@@ -139,7 +139,6 @@ public class KMeansParallel {
    * 
    * @param vecs The named vectors, with the name used as a unique identifier
    * @param centers The centers of the clusters
-   * @param recordType A PType to use for serializing the returned {@code Records}
    * @return A {@code Records} instance containing the cluster assignment info for each point
    */
   public <V extends NamedVector> Records computeClusterAssignments(
@@ -155,7 +154,6 @@ public class KMeansParallel {
    * @param vecs The named vectors, with the name used as a unique identifier
    * @param centers The centers of the clusters
    * @param clusterIds Integer identifiers to use for the clusters
-   * @param recordType A PType to use for serializing the returned {@code Records}
    * @return A {@code Records} instance containing the cluster assignment info for each point
    */
   public <V extends NamedVector> Records computeClusterAssignments(
@@ -302,7 +300,7 @@ public class KMeansParallel {
 
     private final int numCenters;
     
-    public LloydsCenters(PTable<Pair<Integer, Integer>, Pair<V, Long>> collect, int numCenters) {
+    LloydsCenters(PTable<Pair<Integer, Integer>, Pair<V, Long>> collect, int numCenters) {
       super(collect);
       this.numCenters = numCenters;
     }

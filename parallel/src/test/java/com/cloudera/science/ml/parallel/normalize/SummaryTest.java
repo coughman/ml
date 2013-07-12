@@ -27,7 +27,9 @@ import org.apache.crunch.types.avro.Avros;
 import org.apache.mahout.math.Vector;
 import org.junit.Test;
 
+import com.cloudera.science.ml.core.records.DataType;
 import com.cloudera.science.ml.core.records.Record;
+import com.cloudera.science.ml.core.records.RecordSpec;
 import com.cloudera.science.ml.core.records.csv.CSVRecord;
 import com.cloudera.science.ml.core.records.vectors.VectorRecord;
 import com.cloudera.science.ml.core.summary.Summary;
@@ -82,5 +84,19 @@ public class SummaryTest implements Serializable {
     assertEquals(1, s.getStats(1).getMissing());
     assertEquals(2.0, s.getStats(1).mean(), 0.01);
     assertEquals(0.0, s.getStats(1).stdDev(), 0.01);
+  }
+  
+  @Test
+  public void testTrailingIgnoredFields() throws Exception {
+    RecordSpec spec = RecordSpec.builder().add("field1", DataType.DOUBLE)
+        .add("field2", DataType.DOUBLE).add("field3", DataType.DOUBLE).build();
+    PCollection<Record> elems = strings.parallelDo(new MapFn<String, Record>() {
+      @Override
+      public Record map(String input) {
+        return new CSVRecord(Arrays.asList(input.split(",")));
+      }
+    }, MLRecords.csvRecord(AvroTypeFamily.getInstance(), ","));
+    Summarizer sr = new Summarizer().spec(spec).ignoreColumns(2);
+    sr.build(elems).getValue();
   }
 }

@@ -81,7 +81,7 @@ public final class MLRecords {
     private final String schemaJson;
     private transient Schema schema;
     private transient List<Schema.Field> fields;
-    public AvroRecordFn(Schema schema) {
+    AvroRecordFn(Schema schema) {
       this.schemaJson = schema.toString();
     }
     
